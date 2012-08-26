@@ -50,8 +50,11 @@ namespace ServiceStack.Text.Common
 			if (typeof(T) == typeof(decimal))
 				return value => decimal.Parse(value, CultureInfo.InvariantCulture);
 
-			if (typeof(T) == typeof(Guid))
-				return value => new Guid(value);
+            if (typeof(T) == typeof(Guid))
+                #region start SJL MOD, August 22, 2012, make the GUID handling exactly the same as FastJSON's so that items serialized between can function
+                return value => new Guid(System.Convert.FromBase64String((string)value));
+                #endregion
+            //return value => new Guid(value);
 			if (typeof(T) == typeof(DateTime?))
 				return value => DateTimeSerializer.ParseShortestNullableXsdDateTime(value);
             if (typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?))
@@ -100,7 +103,10 @@ namespace ServiceStack.Text.Common
 			if (typeof(T) == typeof(TimeSpan?))
 				return value => value == null ? (TimeSpan?)null : TimeSpan.Parse(value);
 			if (typeof(T) == typeof(Guid?))
-				return value => value == null ? (Guid?)null : new Guid(value);				
+                #region start SJL MOD, August 22, 2012, make the GUID handling exactly the same as FastJSON's so that items serialized between can function
+                return value => value == null ? (Guid?)null : new Guid(System.Convert.FromBase64String((string)value));
+                #endregion
+            //return value => value == null ? (Guid?)null : new Guid(value);				
 			if (typeof(T) == typeof(ushort?))
 				return value => value == null ? (ushort?)null : ushort.Parse(value);
 			if (typeof(T) == typeof(uint?))

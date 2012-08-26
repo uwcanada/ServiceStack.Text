@@ -95,9 +95,10 @@ namespace ServiceStack.Text.Common
 					return null;
 				}
 
-				if (type.IsInterface || type.IsAbstract) {
-					return DynamicProxy.GetInstanceFor(type).GetType();
-				}
+                //sjl, would not compile - no idea where DynamicProxy is or should be
+                //if (type.IsInterface || type.IsAbstract) {
+                //    return DynamicProxy.GetInstanceFor(type).GetType();
+                //}
 
                 return type;
             }
