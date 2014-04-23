@@ -27,6 +27,22 @@ namespace ServiceStack.Text
 	{
 		private static readonly UTF8Encoding UTF8EncodingWithoutBom = new UTF8Encoding(false);
 
+
+        //SJL Custom
+        //when it comes time to pull out the SJLGuidOverride code and go to the native ServiceStack.Text
+        //could just remove this override, and default the JsState.UseSjlGuidOverride property to false
+        //OR delete the JsState.UseSjlGuidOverride property and then refactor (remove all conditional code)
+        //and go back to the default ServiceStack.Text only native Guid handling
+
+        //sjl custom; this override implements the useSjlGuid param
+        public static T DeserializeFromString<T>(string value, bool useSjlGuidOverride)
+        {
+            JsState.UseSjlGuidOverride = useSjlGuidOverride;
+            var ret = DeserializeFromString<T>(value);
+            JsState.UseSjlGuidOverride = true;
+            return ret;
+        }
+
 		public static T DeserializeFromString<T>(string value)
 		{
 			if (string.IsNullOrEmpty(value)) return default(T);
@@ -49,6 +65,15 @@ namespace ServiceStack.Text
 		{
 			return DeserializeFromString(reader.ReadToEnd(), type);
 		}
+
+        //sjl custom
+        public static string SerializeToString<T>(T value, bool useSjlGuidOverride)
+        {
+            JsState.UseSjlGuidOverride = useSjlGuidOverride;
+            var ret = SerializeToString<T>(value);
+            JsState.UseSjlGuidOverride = true; //default - for now....
+            return ret;
+        }
 
 		public static string SerializeToString<T>(T value)
 		{

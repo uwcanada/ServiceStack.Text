@@ -148,19 +148,27 @@ namespace ServiceStack.Text.Json
 
         public void WriteGuid(TextWriter writer, object oValue)
         {
-            #region start SJL MOD, August 22, 2012, make the GUID handling exactly the same as FastJSON's so that items serialized between can function
-            WriteRawString(writer, System.Convert.ToBase64String(((Guid)oValue).ToByteArray()));
-            #endregion
-            //WriteRawString(writer, ((Guid)oValue).ToString("N"));
+            //begin start SJL MOD, August 22, 2012, make the GUID handling exactly the same as FastJSON's so that items serialized between can function
+            if (JsState.UseSjlGuidOverride)
+            {
+                WriteRawString(writer, System.Convert.ToBase64String(((Guid) oValue).ToByteArray()));
+                return;
+            }
+            //end
+            WriteRawString(writer, ((Guid)oValue).ToString("N"));
         }
 
         public void WriteNullableGuid(TextWriter writer, object oValue)
         {
             if (oValue == null) return;
-            #region start SJL MOD, August 22, 2012, make the GUID handling exactly the same as FastJSON's so that items serialized between can function
-            WriteRawString(writer, System.Convert.ToBase64String(((Guid)oValue).ToByteArray()));
-            #endregion
-            //WriteRawString(writer, ((Guid)oValue).ToString("N"));
+            //begin start SJL MOD, August 22, 2012, make the GUID handling exactly the same as FastJSON's so that items serialized between can function
+            if (JsState.UseSjlGuidOverride)
+            {
+                WriteRawString(writer, System.Convert.ToBase64String(((Guid) oValue).ToByteArray()));
+                return;
+            }
+            //end
+            WriteRawString(writer, ((Guid)oValue).ToString("N"));
         }
 
         public void WriteBytes(TextWriter writer, object oByteValue)

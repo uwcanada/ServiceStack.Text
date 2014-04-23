@@ -10,5 +10,8 @@ namespace ServiceStack.Text.Common
 		[ThreadStatic] internal static bool IsWritingValue = false;
 
 		[ThreadStatic] internal static bool IsWritingDynamic = false;
+
+        //sjl custom
+	    [ThreadStatic] internal static bool UseSjlGuidOverride = true;
 	}
 }

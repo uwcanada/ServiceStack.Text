@@ -115,11 +115,11 @@ namespace ServiceStack.Text.Jsv
 
 		public void WriteGuid(TextWriter writer, object oValue)
         {
-            #region start SJL MOD, August 22, 2012, make the GUID handling exactly the same as FastJSON's so that items serialized between can function
-            writer.Write(System.Convert.ToBase64String(((Guid)oValue).ToByteArray()));            
-            #endregion
-
-            //writer.Write(((Guid)oValue).ToString("N"));
+            //feb 2014 testing shows that this SJL override may not be necessary TEST
+            //#region start SJL MOD, August 22, 2012, make the GUID handling exactly the same as FastJSON's so that items serialized between can function
+            //writer.Write(System.Convert.ToBase64String(((Guid)oValue).ToByteArray()));            
+            //#endregion
+            writer.Write(((Guid)oValue).ToString("N"));
 		}
 
 		public void WriteNullableGuid(TextWriter writer, object oValue)
